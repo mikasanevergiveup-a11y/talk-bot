@@ -117,10 +117,21 @@ def build_application() -> Application:
     return application
 
 
+def ensure_event_loop() -> None:
+    """Ensure the main thread has an active loop for python-telegram-bot."""
+    try:
+        loop = asyncio.get_event_loop()
+        if loop.is_closed():
+            raise RuntimeError("event loop is closed")
+    except RuntimeError:
+        asyncio.set_event_loop(asyncio.new_event_loop())
+
+
 def main() -> None:
     """Start the Render health server and the Telegram polling loop."""
     keep_alive()
     application = build_application()
+    ensure_event_loop()
     logger.info("Starting Telegram polling")
     application.run_polling(allowed_updates=Update.ALL_TYPES, drop_pending_updates=True)
 
