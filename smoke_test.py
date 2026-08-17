@@ -12,6 +12,7 @@ class FakeBot:
 
 
 async def main() -> None:
+    assert bot.build_application() is not None
     bot.active_jobs.clear()
     fake_bot = FakeBot()
     application = SimpleNamespace(bot=fake_bot)
