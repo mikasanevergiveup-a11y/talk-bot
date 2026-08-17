@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: talk-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    healthCheckPath: /healthz
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: MIN_INTERVAL_SECONDS
+        value: "4"
+      - key: SELF_PING_INTERVAL
+        value: "180"
+      - key: SELF_PING_START_DELAY
+        value: "10"
+      - key: SELF_PING_TIMEOUT
+        value: "10"
